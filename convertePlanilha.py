@@ -38,12 +38,11 @@ def clean_data(df):
     
     return df
 
-# df = pd.read_csv(r'c:\\Documentos\\projetos-git\\jupyter-notebook\\dataset\\2024-05-09-emeronweb.csv')
-df = pd.read_excel(r'c:\\Documentos\\projetos-git\\jupyter-notebook\\dataset\\2024-05-09-emeronweb.xls')
+df = pd.read_excel(r'dataset\\2024-05-09-emeronweb.xls')
 
 df_clean = clean_data(df.copy())
 
 #df is your dataframe
-# df_clean.to_csv("c:\\Documentos\\projetos-git\\jupyter-notebook\\dataset\\planilha-08-05-2024_tratada.csv", sep=',', encoding='utf-8', index=False)
+# df_clean.to_csv("dataset\\planilha-08-05-2024_tratada.csv", sep=',', encoding='utf-8', index=False)
 
-df_clean.to_excel("c:\\Documentos\\projetos-git\\jupyter-notebook\\dataset\\2024-05-09-emeronweb_tratada2.xlsx", index=False)
+df_clean.to_excel("dataset\\2024-05-09-emeronweb_tratada2.xlsx", index=False)

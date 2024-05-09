@@ -3,11 +3,6 @@ import pandas as pd
 import plotly.express as px
 import convertePlanilha
 
-
-# df = pd.read_csv(r'c:\\Documentos\\projetos-git\\jupyter-notebook\\dataset\\planilha-08-05-2024.csv')
-
-# df_clean = clean_data(df.copy())
-
 # Montagem do layout
 st.set_page_config(page_title='ESJUD em números', layout='wide')
 
