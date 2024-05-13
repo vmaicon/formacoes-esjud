@@ -1,7 +1,9 @@
 import streamlit as st
 import pandas as pd
-import plotly.express as px
+from datetime import datetime
+
 import convertePlanilha
+import uploadFile
 
 # Montagem do layout
 st.set_page_config(page_title='ESJUD em números', layout='wide')
@@ -18,9 +20,18 @@ with st.container():
         df_clean = convertePlanilha.clean_data(df.copy())
 
     if 'df_clean' not in st.session_state:
-            st.session_state['df_clean'] = df_clean
+        st.session_state['df_clean'] = df_clean
     
     df_clean = st.session_state['df_clean']
+    st.write(df_clean)
+    xlsx_data = uploadFile.convert_df(df_clean)
+
+    st.download_button(
+            label="Downlaod da planilha tratada em formato xlsx",
+            data=xlsx_data,
+            file_name=f"{datetime.now()}-{upload_file.name}",
+            mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        )
 
 # Métricas
 df_metricas = df_clean[['Início','Atividade','Vagas','N. Alunos','Concluintes','Não Concluintes','CH']]
@@ -45,12 +56,3 @@ with st.container():
     col1, col2 = st.columns(2)
     with col1.bar_chart(df_vagas_alunos_concluintes):
         pass
-
-    with col2:
-        fig = px.bar(df_clean,x="Vagas",y='mes_inicio',orientation="h")
-        st.plotly_chart(figure_or_data=fig, use_container_width=True)
-
-
-# Tabela com os dados
-with st.container(border=True):
-    st.dataframe(df_clean.get(["ID","Início", "Atividade", "CH", "N. Alunos"]), use_container_width=True, hide_index=True)

@@ -1,8 +1,12 @@
 import pandas as pd
 import streamlit as st
+import locale
 
 @st.cache_data
 def clean_data(df):
+
+    locale.setlocale(locale.LC_ALL,'pt_BR.UTF-8')
+
     # Removendo colunas nulas ou com 100% do mesmo dado
     df = df.drop(columns=['Tags','Público Det.','Natureza','Realização'])
     df.rename(columns={'Unnamed: 0':'ID'}, inplace=True)
@@ -23,26 +27,25 @@ def clean_data(df):
     # Change column type to datetime64[ns] for column: 'Início'
     df['Início'] = pd.to_datetime(df['Início'],format="%d/%m/%Y")
     df['Fim'] = pd.to_datetime(df['Fim'],format="%d/%m/%Y")
+
+    # Nomeando os dias da semana
+    df['dia_da_semana_nome_inicio'] = df['Início'].dt.strftime('%A')
+    df['dia_da_semana_nome_fim'] = df['Fim'].dt.strftime('%A')
+
+    # Nomeando os meses
+    df['meses_inicio_nomeados'] = df['Início'].dt.strftime('%B')
+    df['meses_fim_nomeados'] = df['Fim'].dt.strftime('%B')
     
     # Adicionar uma nova coluna para o ano do projeto pedagógico
     df['Ano do Projeto Pedagógico'] = df['Projeto Pedagógico'].str.extract(regex, expand=False).astype(int)
 
-    # Novas aolunas de dia, mes e ano a partir das colunas início e fim
-    df['dia_inicio'] = df['Início'].dt.day
-    df['mes_inicio'] = df['Início'].dt.month
-    df['ano_inicio'] = df['Início'].dt.year
-    
-    df['dia_fim'] = df['Fim'].dt.day
-    df['mes_fim'] = df['Fim'].dt.month
-    df['ano_fim'] = df['Fim'].dt.year
-    
     return df
 
-df = pd.read_excel(r'dataset\\2024-05-09-emeronweb.xls')
+# df = pd.read_excel(r'dataset\\2024-05-09-emeronweb.xls')
 
-df_clean = clean_data(df.copy())
+# df_clean = clean_data(df.copy())
 
 #df is your dataframe
 # df_clean.to_csv("dataset\\planilha-08-05-2024_tratada.csv", sep=',', encoding='utf-8', index=False)
 
-df_clean.to_excel("dataset\\2024-05-09-emeronweb_tratada2.xlsx", index=False)
+# df_clean.to_excel("dataset\\2024-05-09-emeronweb_tratada2.xlsx", index=False)
