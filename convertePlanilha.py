@@ -31,8 +31,8 @@ def clean_data(df):
     df['dia_da_semana_nome_fim'] = df['Fim'].dt.strftime('%A')
 
     # Nomeando os meses
-    df['meses_inicio_nomeados'] = df['Início'].dt.strftime('%B')
-    df['meses_fim_nomeados'] = df['Fim'].dt.strftime('%B')
+    df['meses_inicio_nomeados'] = df['Início'].dt.strftime('%m - %B')
+    df['meses_fim_nomeados'] = df['Fim'].dt.strftime('%m - %B')
 
     # Mês referência
     df['mes_referencia'] = df['Início'].dt.strftime('%m - %B')
