@@ -1,8 +1,6 @@
 import pandas as pd
-import streamlit as st
 import locale
 
-@st.cache_data
 def clean_data(df):
 
     locale.setlocale(locale.LC_ALL,'pt_BR.UTF-8')
@@ -37,19 +35,10 @@ def clean_data(df):
     df['meses_fim_nomeados'] = df['Fim'].dt.strftime('%B')
 
     # Mês referência
-    df['mes_referencia'] = df['Início'].dt.strftime('%B')
-    df.loc[df['Tipo de Atividade'].str.contains('AutoInstrucional'), 'mes_referencia'] = 'Anual'
+    df['mes_referencia'] = df['Início'].dt.strftime('%m - %B')
+    df.loc[df['Tipo de Atividade'].str.contains('AutoInstrucional'), 'mes_referencia'] = '13 - Anual'
     
     # Adicionar uma nova coluna para o ano do projeto pedagógico
     df['Ano do Projeto Pedagógico'] = df['Projeto Pedagógico'].str.extract(regex, expand=False).astype(int)
 
     return df
-
-# df = pd.read_excel(r'dataset\\2024-05-09-emeronweb.xls')
-
-# df_clean = clean_data(df.copy())
-
-#df is your dataframe
-# df_clean.to_csv("dataset\\planilha-08-05-2024_tratada.csv", sep=',', encoding='utf-8', index=False)
-
-# df_clean.to_excel("dataset\\2024-05-09-emeronweb_tratada2.xlsx", index=False)
