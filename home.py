@@ -24,14 +24,27 @@ with st.container():
     
     df_clean = st.session_state['df_clean']
     st.write(df_clean)
+
+    # converte para xlsx
     xlsx_data = uploadFile.convert_df(df_clean)
+
+    # converte para csv
+    csv = uploadFile.convert_df_to_csv(df_clean)
 
     st.download_button(
             label="Downlaod da planilha tratada em formato xlsx",
             data=xlsx_data,
-            file_name=f"{datetime.now()}-{upload_file.name}",
+            file_name=f"{datetime.now()} - file.xlsx",
             mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
         )
+    
+    st.download_button(
+        label="Downlaod do arquivo CSV",
+        data=csv,
+        file_name=f"{datetime.now()} - file.csv",
+        mime='text/csv',
+        key='download-csv'
+    )
 
 # Métricas
 df_metricas = df_clean[['Início','Atividade','Vagas','N. Alunos','Concluintes','Não Concluintes','CH']]
