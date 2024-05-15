@@ -35,6 +35,10 @@ def clean_data(df):
     # Nomeando os meses
     df['meses_inicio_nomeados'] = df['Início'].dt.strftime('%B')
     df['meses_fim_nomeados'] = df['Fim'].dt.strftime('%B')
+
+    # Mês referência
+    df['mes_referencia'] = df['Início'].dt.strftime('%B')
+    df.loc[df['Tipo de Atividade'].str.contains('AutoInstrucional'), 'mes_referencia'] = 'Anual'
     
     # Adicionar uma nova coluna para o ano do projeto pedagógico
     df['Ano do Projeto Pedagógico'] = df['Projeto Pedagógico'].str.extract(regex, expand=False).astype(int)
