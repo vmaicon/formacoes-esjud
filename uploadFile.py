@@ -1,3 +1,4 @@
+import pandas as pd
 import openpyxl
 import io
 
@@ -21,3 +22,6 @@ def convert_df(df):
     xlsx_buffer.seek(0)  # Rewind the buffer to the beginning
 
     return xlsx_buffer.getvalue()
+
+def convert_df_to_csv(df:pd.DataFrame):
+    return df.to_csv(index=False).encode("utf-8")
