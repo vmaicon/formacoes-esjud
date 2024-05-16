@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 from datetime import datetime
+import plotly.express as px
 
 import convertePlanilha
 import uploadFile
@@ -75,5 +76,10 @@ with st.container():
         df_vagas_alunos_concluintes = df_metricas.drop(columns=['Início', 'Atividade','CH', 'Não Concluintes']).sum().to_frame()
         with st.container():
             col1, col2 = st.columns(2)
-            with col1.bar_chart(df_vagas_alunos_concluintes):
-                pass
+            with col1:
+                df_referencia = df_clean[['N. Alunos','mes_referencia']].groupby('mes_referencia')['N. Alunos'].sum().to_frame().reset_index()
+                fig = px.bar(data_frame=df_referencia, x='mes_referencia', y='N. Alunos', title='Número de alunos por mês de referência', text='N. Alunos')
+                st.plotly_chart(fig, use_container_width=True)
+
+            with col2:
+                st.dataframe(df_clean['Atividade'],use_container_width=True)
